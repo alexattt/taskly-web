@@ -1,0 +1,74 @@
+<div id="task-page">
+  <div class="page-content">
+    <header class="flex flex-row justify-content-between">
+      <div
+        class="flex flex-row gap-2 align-items-center justify-content-center"
+      >
+        <i class="pi pi-list-check" style="font-size: 1.5rem"></i>
+        <h1>Taskly</h1>
+      </div>
+      <p-button
+        label="Log out"
+        [text]="true"
+        severity="secondary"
+        (onClick)="logOut()"
+      />
+    </header>
+    <div class="flex flex-row mt-8 justify-content-between">
+      <div></div>
+      <p-button
+        label="Add new task"
+        icon="pi pi-plus"
+        variant="outlined"
+        severity="secondary"
+        (onClick)="openAddNewTaskModal()"
+      />
+    </div>
+    <div>
+      <p *ngIf="tasksLoading" class="font-italic">Loading...</p>
+      <div *ngIf="!tasksLoading && tasks.length === 0" class="mt-8 text-center">
+        <p>You have no tasks for now, add your first one!</p>
+      </div>
+      <div
+        *ngIf="!tasksLoading && tasks.length > 0"
+        class="flex flex-column gap-3 mt-3"
+      >
+        <div *ngFor="let task of tasks">
+          <p-fluid>
+            <p-card
+              class="cursor-pointer"
+              [ngClass]="{ 'finished-task': task.isFinished }"
+              (click)="openTaskEditForm(task.id!)"
+            >
+              <div class="card-content">
+                <div class="flex flex-row justify-content-between">
+                  <div class="flex flex-row gap-2 align-items-center mb-2">
+                    <i
+                      class="pi pi-circle-fill"
+                      [ngStyle]="{
+                        color: getTaskPriorityColor(task.priority),
+                        'font-size': '1.25rem'
+                      }"
+                    >
+                    </i>
+                    <p class="font-bold">
+                      {{ getTaskPriority(task.priority) }}
+                    </p>
+                  </div>
+                  <p *ngIf="task.deadline" class="font-bold">
+                    Deadline {{ task.deadline | date : "dd/MM/yyyy" }}
+                  </p>
+                </div>
+                <h3>{{ task.name }}</h3>
+                <p class="mt-2">{{ task.description }}</p>
+                <p class="mt-6 text-sm text-right">
+                  Created {{ task.createdAt | date : "HH:mm dd/MM/yyyy" }}
+                </p>
+              </div>
+            </p-card>
+          </p-fluid>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

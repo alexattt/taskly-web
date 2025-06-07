@@ -1,0 +1,69 @@
+<div class="flex flex-column gap-3">
+  <h3 class="mb-2">{{ isUpdatedMode ? "Edit" : "New" }} task</h3>
+  <p-fluid>
+    <label for="taskTitle">Title*</label>
+    <input
+      id="taskTitle"
+      type="text"
+      pInputText
+      [(ngModel)]="name"
+      placeholder="My awesome task"
+    />
+  </p-fluid>
+  <p-fluid>
+    <label for="taskDesc">Description</label>
+    <textarea
+      id="taskDesc"
+      rows="5"
+      cols="30"
+      pTextarea
+      style="resize: vertical"
+      [(ngModel)]="description"
+    ></textarea>
+  </p-fluid>
+  <p-fluid>
+    <label for="priority">Priority</label>
+    <p-select
+      id="priority"
+      appendTo="body"
+      [options]="taskPriorities"
+      [(ngModel)]="taskPriority"
+      optionLabel="label"
+      optionValue="value"
+      placeholder="Priority"
+      class="w-full"
+    />
+  </p-fluid>
+  <p-fluid>
+    <label for="deadline">Deadline</label>
+    <p-datepicker
+      id="deadline"
+      appendTo="body"
+      [(ngModel)]="deadline"
+      [firstDayOfWeek]="1"
+      dateFormat="dd/mm/yy"
+    />
+  </p-fluid>
+  <div class="flex flex-row align-items-center">
+    <p-checkbox
+      inputId="isFinished"
+      [(ngModel)]="isFinished"
+      [binary]="true"
+      size="large"
+    />
+    <label for="isFinished" class="ml-2"> Is finished </label>
+  </div>
+  <div
+    *ngIf="!isUpdatedMode"
+    class="flex flex-row w-100 justify-content-end mt-6"
+  >
+    <p-button label="Save" [disabled]="!name.trim()" (onClick)="saveTask()" />
+  </div>
+  <div
+    *ngIf="isUpdatedMode"
+    class="flex flex-row w-100 justify-content-between mt-6"
+  >
+    <p-button label="Delete" severity="danger" (onClick)="deleteTask()" />
+    <p-button label="Save" [disabled]="!name.trim()" (onClick)="updateTask()" />
+  </div>
+</div>
